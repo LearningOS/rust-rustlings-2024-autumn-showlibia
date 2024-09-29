@@ -7,6 +7,9 @@
 // Execute `rustlings hint from_into` or use the `hint` watch subcommand for a
 // hint.
 
+#![feature(f128)]
+use std::f128::consts::E;
+
 #[derive(Debug)]
 struct Person {
     name: String,
@@ -40,10 +43,28 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.len() == 0 {
+            return Default::default()
+        } else {
+            let items: Vec<&str> = s.split(',').collect();
+            if items.len() != 2 {
+                return Default::default()
+            } 
+            if items[0].trim().is_empty() {
+                return Default::default()
+            }
+            let age = items[1].parse::<usize>();
+            match age {
+                Ok(age) => Person {
+                    name: items[0].to_string(),
+                    age: age
+                },
+                Err(_) => return Default::default()
+            }
+        }
     }
 }
 
