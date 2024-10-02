@@ -7,6 +7,7 @@
 // Execute `rustlings hint from_into` or use the `hint` watch subcommand for a
 // hint.
 
+
 #![feature(f128)]
 use std::f128::consts::E;
 
@@ -49,22 +50,18 @@ impl From<&str> for Person {
         if s.len() == 0 {
             return Default::default()
         } else {
-            let items: Vec<&str> = s.split(',').collect();
-            if items.len() != 2 {
-                return Default::default()
-            } 
-            if items[0].trim().is_empty() {
-                return Default::default()
-            }
-            let age = items[1].parse::<usize>();
-            match age {
-                Ok(age) => Person {
-                    name: items[0].to_string(),
-                    age: age
-                },
-                Err(_) => return Default::default()
+            if let Some((name, age)) = s.split_once(',') {
+                if !name.is_empty() {
+                    if let Ok(age) = age.parse::<usize>() {
+                        return Self {
+                            name: name.to_string(),
+                            age: age    
+                        };
+                    }
+                }
             }
         }
+        return Self::default();
     }
 }
 
