@@ -48,7 +48,7 @@ impl Default for Person {
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
         if s.len() == 0 {
-            return Default::default()
+            return Self::default()
         } else {
             if let Some((name, age)) = s.split_once(',') {
                 if !name.is_empty() {
